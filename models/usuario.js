@@ -28,8 +28,14 @@ const usuarioShema = Schema({
   },
   google: {
     type: Boolean,
-    default: false
+    default: false,
   },
 });
+
+usuarioShema.methods.toJSON = function () {
+  const { __v, password, _id, ...usuario } = this.toObject();
+  usuario.uid = _id;
+  return usuario;
+};
 
 export default model("Usuario", usuarioShema);
