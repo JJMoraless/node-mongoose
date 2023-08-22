@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
-const atlas_uri = process.env.ATLAS_URI;
+import "dotenv/config";
 
 export const dbConection = async () => {
   try {
-    await mongoose.connect(atlas_uri);
+    await mongoose.connect(process.env.ATLAS_URI);
     console.log("base de datos online 🧙‍♂️ 🪄");
   } catch (error) {
     throw new Error("Error al incializar la base de datos", { error });
