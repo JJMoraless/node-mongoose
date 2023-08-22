@@ -1,9 +1,12 @@
-import express, { json } from "express";
+import express from "express";
 import cors from "cors";
 import morgan from "morgan";
+import path from "path";
 
 import { dbConection } from "../database/config.js";
 import userRouter from "../routes/usuarios.js";
+import authRouter from "../routes/auth.js";
+const { pathname: publicPath } = new URL("../public", import.meta.url);
 
 class Server {
   constructor() {
@@ -19,13 +22,15 @@ class Server {
   }
 
   middlewares() {
-    this.app.use(morgan('dev'));
+    this.app.use(morgan("dev"));
     this.app.use(cors());
-    this.app.use(json());
+    this.app.use(express.json());
   }
 
   routes() {
     this.app.use("/api/users", userRouter);
+    this.app.use("/api/auth", authRouter);
+    this.app.use(express.static("./public"));
   }
 
   listen() {
